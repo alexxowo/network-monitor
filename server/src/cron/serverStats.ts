@@ -2,8 +2,10 @@ import { cronFunctions } from '../interfaces/cron.interface'
 import os from 'os'
 import DB from '../database'
 
+import utils from 'os-utils'
+
 class serverStats implements cronFunctions {
-  run() : void{
+  public run = async () =>{
     let fecha = new Date().getTime()
     let hostname = os.hostname
     let memory_free = (os.freemem()*1e-9)
@@ -14,7 +16,11 @@ class serverStats implements cronFunctions {
     let loadavg = os.loadavg()
     let cpu_info = os.cpus()
 
+    await (await DB).query(`
+      INSERT INTO items VALUES (1, 4, 'CPU Usage', ?, ?`, 
+      [utils.cpuUsage(use=>{ return use; }), new Date().getTime()])
 
+    console.log('Added')
 
   }
 }
