@@ -9,6 +9,7 @@ class indexRouter{
 
   config() : void {
     this.router.get('/', indexController.index)
+    this.router.get('/info', indexController.info)
   }
 
 }

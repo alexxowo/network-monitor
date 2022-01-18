@@ -5,7 +5,7 @@ import { Agent } from './types/agent';
 import cron from 'node-cron'
 
 // Routes
-import indexController from './controllers/index.controller'
+import indexRoutes from './routes/index.routes';
 
 import { Host } from './types/host';
 
@@ -25,8 +25,7 @@ class Server{
     this.app.use(express.json())
 
     // Controllers
-    this.app.use(indexController.index)
-
+    this.app.use("/", indexRoutes)
   }
 
   start() : void {
