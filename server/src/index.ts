@@ -2,7 +2,8 @@ import express, {Application, Request, Response} from 'express'
 import morgan from 'morgan';
 import { Socket } from 'socket.io';
 import { Agent } from './types/agent';
-import cron from 'node-cron'
+
+import cronManager from './modules/cron.module'
 
 // Routes
 import indexRoutes from './routes/index.routes';
@@ -30,6 +31,8 @@ class Server{
 
   start() : void {
     this.config()
+
+    cronManager.config()
 
     this.app.listen(this.port, () => {
       console.log('Server is running')
