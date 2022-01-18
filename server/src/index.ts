@@ -4,6 +4,9 @@ import { Socket } from 'socket.io';
 import { Agent } from './types/agent';
 import cron from 'node-cron'
 
+// Routes
+import indexController from './controllers/index.controller'
+
 import { Host } from './types/host';
 
 class Server{
@@ -17,25 +20,17 @@ class Server{
   }
 
   config():void{
+    // Middlewares
     this.app.use(morgan(('dev')))
     this.app.use(express.json())
-  }
 
-  router() : void {
-    const hostTest = new Host('Laptop', '192.168.69.93', 10050, Agent.Agent)
+    // Controllers
+    this.app.use(indexController.index)
 
-    this.app.get('/', (req: Request, res: Response) => {
-      res.json(hostTest)
-    })
   }
 
   start() : void {
     this.config()
-    this.router()
-
-    cron.schedule("*/1 * * * *", () => {
-      console.log('Hola Mundo')
-    })
 
     this.app.listen(this.port, () => {
       console.log('Server is running')
