@@ -16,9 +16,9 @@ class serverStats implements cronFunctions {
     let loadavg = os.loadavg()
     let cpu_info = os.cpus()
 
-    await (await DB).query(`
-      INSERT INTO items VALUES (1, 4, 'CPU Usage', ?, ?`, 
-      [utils.cpuUsage(use=>{ return use; }), new Date().getTime()])
+    let usageCpu = utils.cpuUsage(use => {return use})
+
+    await (await DB).query(`INSERT INTO items VALUES (1, 4, 'CPU Usage', ?, ?)`, [usageCpu, new Date().getTime()])
 
     console.log('Added')
 

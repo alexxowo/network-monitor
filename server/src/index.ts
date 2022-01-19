@@ -13,7 +13,6 @@ import { Host } from './types/host';
 class Server{
   public app: Application;
   public port: Number;
-  //public socket:Socket;
 
   constructor(){
     this.app = express();

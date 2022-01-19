@@ -226,7 +226,7 @@ let chartExample2 = {
     gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
 
     return {
-      labels: ["JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+      labels: ["10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00","14:30"],
       datasets: [
         {
           label: "Data",
@@ -243,7 +243,7 @@ let chartExample2 = {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          data: [80, 100, 70, 80, 120, 80],
+          data: [0.40, 1, 7, 8,25.76, 50, 39],
         },
       ],
     };
