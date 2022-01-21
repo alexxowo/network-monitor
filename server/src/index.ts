@@ -7,6 +7,7 @@ import cronManager from './modules/cron.module'
 
 // Routes
 import indexRoutes from './routes/index.routes';
+import hostsRoutes from './routes/hosts.routes';
 
 import { Host } from './types/host';
 
@@ -26,6 +27,7 @@ class Server{
 
     // Controllers
     this.app.use("/", indexRoutes)
+    this.app.use("/hosts", hostsRoutes)
   }
 
   start() : void {

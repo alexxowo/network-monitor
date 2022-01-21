@@ -2,16 +2,20 @@ import { Agent } from "./agent";
 import {Queries} from "./queries"
 
 export class Host implements Queries {
-  public name: string = '';
-  public address: string = '';
-  public port: number = 10050;
+  public hostname: String = '';
+  public address: String = '';
+  public port: Number = 10050;
   public agent: Agent = Agent.Agent;
+  public description: String = '';
+  public status: Boolean = true;
 
-  constructor(name:string, address:string, port:number, agent=Agent.Agent){
-    this.name = name;
+  constructor(hostname:string, address:string, port:number, agent=Agent.Agent, description: string, status: boolean = true){
+    this.hostname = hostname;
     this.address = address;
     this.port = port;
     this.agent = agent;
+    this.description = description;
+    this.status = status;
   }
 
   public get():any{
