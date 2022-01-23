@@ -24,6 +24,13 @@ class Server{
     // Middlewares
     this.app.use(morgan(('dev')))
     this.app.use(express.json())
+    this.app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+      res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');    
+      next();
+    })
 
     // Controllers
     this.app.use("/", indexRoutes)
@@ -33,7 +40,7 @@ class Server{
   start() : void {
     this.config()
 
-    cronManager.config()
+    //cronManager.config()
 
     this.app.listen(this.port, () => {
       console.log('Server is running')

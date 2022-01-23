@@ -26,13 +26,35 @@ class indexController {
   }
 
   async stats(req: Request, res: Response): Promise<void>{
+    const key = req.query.key;
+
+    console.log(key)
+
+    if(key === '' || key === undefined){
+      res.status(400).json({response: "error", message: "key is required"})
+    }
+
+    if (key != 'all'){
       const stats = await (await DB).query(`
-      SELECT item_type as item, host_id, value as item_value, unixtime 
-      FROM items LEFT JOIN hosts AS host ON items.host_id = host.id 
-      WHERE host.id = items.host_id AND items.unixtime > unix_timestamp((NOW() - INTERVAL 15 MINUTE)); 
+        SELECT items.key as item, items.host_id, items.value as item_value, items.unixtime 
+        FROM items LEFT JOIN hosts AS host ON items.host_id = host.id 
+        WHERE host.id = items.host_id AND items.unixtime > unix_timestamp((NOW() - INTERVAL 15 MINUTE))
+        ORDER BY items.unixtime DESC
       `)
 
-      res.status(200).json(stats)
+      res.status(200).json(stats);
+    }
+
+    const stats = await (await DB).query(`
+      SELECT items.key as item, items.host_id, items.value as item_value, items.unixtime 
+      FROM items LEFT JOIN hosts AS host ON items.host_id = host.id 
+      WHERE host.id = items.host_id AND items.unixtime > unix_timestamp((NOW() - INTERVAL 15 MINUTE))
+      AND items.key = '${key}'
+      ORDER BY items.unixtime DESC
+    `)
+
+  res.status(200).json(stats);
+
   }
 
 }

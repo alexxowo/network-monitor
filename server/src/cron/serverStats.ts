@@ -16,11 +16,17 @@ class serverStats implements cronFunctions {
     let loadavg = os.loadavg()
     let cpu_info = os.cpus()
 
-    let usageCpu = utils.cpuUsage(use => {return use})
-
-    await (await DB).query(`INSERT INTO items(item_type, host_id, value, unixtime) 
-    SELECT 1, hosts.id, ${memory_free},${new Date().getTime() * 0.001}
-    FROM hosts WHERE hosts.address = "127.0.0.1"`)
+    await (await DB).query(`
+      INSERT INTO items(items.key, host_id, value, unixtime) 
+      SELECT 'system.hw.memory.free', hosts.id, ${memory_free},${new Date().getTime() * 0.001}
+      FROM hosts WHERE hosts.address = "127.0.0.1"
+      UNION ALL
+      SELECT 'system.hw.memory.total', hosts.id, ${memory_total},${new Date().getTime() * 0.001}
+      FROM hosts WHERE hosts.address = "127.0.0.1"
+      UNION ALL
+      SELECT 'system.hw.memory.free', hosts.id, ${memory_free},${new Date().getTime() * 0.001}
+      FROM hosts WHERE hosts.address = "127.0.0.1"
+    `)
 
     console.log('Added')
 
